@@ -1,0 +1,42 @@
+
+[build-system]
+requires = ["setuptools", "wheel", "pyyaml"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "inventree-federation"
+version =  "0.1.0"
+description="Share sepecific stock items and inventory stats between plugin users "
+readme = "README.md"
+license = {text = "MIT license"}
+keywords = ["inventree", "inventree-plugin", "federation"]
+authors = [
+    {name = "Matthias Mair", email =  "code@mjmair.com"}
+]
+classifiers=[
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Plugins",
+    "Framework :: Django",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Manufacturing",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Scientific/Engineering",
+        'License :: OSI Approved :: MIT License',
+]
+requires-python=">=3.9"
+dependencies = ['django', ]
+
+[project.optional-dependencies]
+dev = ['twine', 'setuptools']
+
+[project.urls]
+"Repository" = "https://github.com/matmair/inventree-federation"
+"Bug Tracker" = "https://github.com/matmair/inventree-federation/issues"
+
+[project.entry-points."inventree_plugins"]
+inventree_federation = "inventree_federation:FederationPlugin"
+
+[tool.setuptools.packages.find]
+where = ["src"]
