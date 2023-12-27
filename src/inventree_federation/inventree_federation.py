@@ -1,4 +1,4 @@
-"""Share sepecific stock items and inventory stats between plugin users ."""
+"""Share specific stock items and inventory stats between plugin users ."""
 
 from plugin import InvenTreePlugin
 from plugin.mixins import (
@@ -8,13 +8,13 @@ from plugin.mixins import (
 )
 
 
-class FederationPlugin(    UrlsMixin,
-    NavigationMixin,
-    SettingsContentMixin,InvenTreePlugin):
-    """Share sepecific stock items and inventory stats between plugin users ."""
+class FederationPlugin(
+    UrlsMixin, NavigationMixin, SettingsContentMixin, InvenTreePlugin
+):
+    """Share specific stock items and inventory stats between plugin users ."""
 
-    NAME = 'inventree_federation'
-    SLUG = 'inventree_federation'
+    NAME = "inventree_federation"
+    SLUG = "inventree_federation"
     TITLE = "InvenTree Federation"
     MIN_VERSION = "0.13.0"
 

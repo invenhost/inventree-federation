@@ -1,6 +1,6 @@
 # inventree-federation
 
-Share sepecific stock items and inventory stats between plugin users 
+Share specific stock items and inventory stats between plugin users
 
 ## Setup
 
