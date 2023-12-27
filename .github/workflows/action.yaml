@@ -9,5 +9,13 @@ on:
 
 jobs:
   plugin-action:
-    uses: matmair/inventree-meta-plugin/.github/workflows/plugin_action.yaml@main
-    secrets: inherit
+    uses: matmair/inventree-meta-plugin/.github/workflows/plugin_action.yaml@next
+    name: CI
+    secrets:
+      REPO_USERNAME: ${{ secrets.TWINE_USERNAME }}
+      REPO_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+    with:
+      # backend_tests: true
+      private_repo: true
+      private_url: 'https://git.invenhost.com/api/packages/invenhost-c1/pypi'
+      pypi_repo: false
