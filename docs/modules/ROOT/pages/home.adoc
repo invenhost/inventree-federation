@@ -1,0 +1,72 @@
+# Getting started
+
+WARNING: This plugin is currently in alpha state. It is not recommended to rely on this plugin in production.
+
+WARNING: This plugin requires an instance with InvenTree 0.13.0 or higher and plugin support.
+
+Enables "sharing" of certain stock items between multiple InvenTree instances. There are some xref:home.adoc#limitations[known limitations] in the current implementation.
+
+## General information about InvenHost
+
+The InvenHost project aims to provide a set of plugins and service that enhance InvenTree for commercial and enterprise use cases. +
+
+TIP: Read more about InvenHost in the https://doc.invenhost.com/invenhost[main project documentation]
+
+## Function
+
+TODO
+
+### Use cases
+
+These use cases guided the development of this plugin. New additions to the plugin should not conflict with these use cases. If they do the reason needs to be documented.
+
+In the following Party A is the InvenTree instance of the makerspace of the main user. Party B is the InvenTree instance of the makerspace of the user's friend/friendly hack. All descriptions are from the perspective of the main user. The parties trust each other. Party C is another makerspace that is not trusted by/known to the main user.
+Party x means any trusted party.
+
+#### UC 1: Federation setup [[uc-1]]
+
+TODO
+
+#### UC 2: Party A sends item to party B [[uc-2]]
+
+TODO
+
+#### UC 3: Party B request item from party A [[uc-3]]
+
+TODO
+
+#### UC 4: Party x requests inventory stats from party x [[uc-4]]
+
+TODO
+
+#### UC 5: Federation stop [[uc-5]]
+
+TODO
+
+### Design decisions
+
+1. The plugin should follow InvenHost best practices
+2. The plugin should not use migrations
+3. The plugin should expose a reusable REST API
+4. The user interface is to be implemented in CUI till PUI is GA
+5. Data is to be stored in metadata
+6. Changes to stock etc. are to be tracked in the history
+7. Each Federated party is to have it's own customer
+
+### Known Limitations [[limitations]]
+
+#### UC 6: Party A sends to party B sends to party C [[uc-6]]
+
+Not allowed. Only direct connections are allowed currently as the plugin does not keep track of the full chain of ownership.
+
+#### Multi step/dynamic approval process
+
+This is out of scope currently. Might be possible once the inventree-approvals plugins is GA.
+
+#### The auth tokens need to be updated yearly
+
+The default for 0.13.0 is that the auth tokens are valid for 1 year. This means that the auth tokens for all connections need to be updated yearly. This is an acceptable tradeoff for the current implementation.
+
+## Background
+
+This plugin is mainly developed to address the https://github.com/inventree/InvenTree/issues/4562[ask for federation] in upstream InvenTree. The idea is that multiple makerspaces would like to be able to share selected tools and inventory states between each other. This plugin is a first step towards that goal. The use cases were worked on at 37c3.
