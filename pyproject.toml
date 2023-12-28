@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "inventree-federation"
-version =  "0.1.0"
+version =  "0.1.0a0"
 description="Share specific stock items and inventory stats between plugin users "
 readme = "README.md"
 license = {text = "MIT license"}
