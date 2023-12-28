@@ -1,0 +1,10 @@
+name: inventree_federation
+title: InvenTree Federation
+version: true
+start_page: home.adoc
+asciidoc:
+  attributes:
+    source-language: asciidoc@
+    table-caption: false
+nav:
+- modules/ROOT/nav.adoc
