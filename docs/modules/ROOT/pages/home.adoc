@@ -38,13 +38,23 @@ Party x means any trusted party.
 
 #### UC 1: Federation setup [[uc-1]]
 
-TODO
+Every server can request to connect to every server (with in the default throtteling) and can be connected to by every server. A superuser of the reqeuseted server needs to be allow the connection. If that occurs a user account for the requesting server is created and a long lived token (1 year) is created.
+Additionally a customer is created for the requesting party. This will server as the owner of the stock items that are shared with the requesting party.
+
 [mermaid]
 ....
 sequenceDiagram
-    Alice->>John: Hello John, how are you?
-    John-->>Alice: Great!
-    Alice-)John: See you later!
+    autonumber
+    participant PartyA
+    participant PartyB
+    PartyA->>PartyA: Activate discoverabily
+    PartyB->>PartyA: I would like to connect: Here is my token
+    PartyA->>PartA: Admin approves connection
+    PartyA->>PartyB: Ok: Here is my token
+    PartyB->>PartyA: OK: Here is you 1yr token
+    PartyA->>PartyB: OK: Here is you 1yr token
+    PartyB->>PartyA: What inventory do you have? (using 1yr token)
+    PartyA->>PartyB: Here is my inventory
 ....
 
 #### UC 2: Party A sends item to party B [[uc-2]]
