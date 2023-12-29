@@ -102,6 +102,28 @@ sequenceDiagram
     PartyB->>PartyA: OK: Item was transferred, stock count send item to show it was received
 ....
 
+DEMO
+
+[mermaid]
+....
+sequenceDiagram
+    autonumber
+    participant PartyA
+    participant PartyB
+    PartyA->>PartyA: Activate discoverabily
+    PartyB->>PartyA: I would like to connect: Here is my token
+    PartyA->>PartyA: Admin approves connection
+    PartyA->>PartyB: Ok: Here is my token
+    PartyB->>PartyA: OK: Here is you 1yr token
+    PartyA->>PartyB: OK: Here is you 1yr token
+    PartyB->>PartyA: What inventory do you have? (using 1yr token)
+    PartyA->>PartyB: Here is my inventory
+    PartyA->>PartyA: Set connection to active
+    PartyA->>PartyB: What inventory do you have? (using 1yr token)
+    PartyB->>PartyA: Here is my inventory
+    PartyB->>PartyB: Set connection to active
+....
+
 #### UC 4: Party x requests inventory stats from party x [[uc-4]]
 
 TODO
