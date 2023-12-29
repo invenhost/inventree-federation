@@ -98,8 +98,8 @@ sequenceDiagram
     PartyB->>PartyA: OK: Item transfer would be accepted
     PartyA->>PartyA: Create Item in Party B's customer account, Transfer item to normal stock location
     PartyA->>PartyB: OK: Item was moved
-    PartyB->>PartyB: Transfer item to Party A's customer account, add stock tracking entry that shows that the item was send to Party A, notify group owners
-    PartyB->>PartyA: OK: Item was transferred, stock count send item to show it was received
+    PartyB->>PartyB: Transfer item to Party A's customer account, add stock tracking entry that shows that the item was send to Party A
+    PartyB->>PartyA: OK: Item was transferred, stock count send item to show it was received, notify group owners
 ....
 
 
