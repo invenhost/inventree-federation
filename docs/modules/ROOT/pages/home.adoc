@@ -12,6 +12,19 @@ The InvenHost project aims to provide a set of plugins and service that enhance 
 
 TIP: Read more about InvenHost in the https://doc.invenhost.com/invenhost[main project documentation]
 
+## Installation/setup [[getting-started]]
+1. Install the plugin. To do this either:
+..  Install the plugin directly from the InvenTree UI. Go to `Settings` -> `Plugins` and click on `Install plugin`. Enter the URL of this repository and click on `Install`.
+.. Install the plugin in your environment with pip. Run +
+```bash
+pip install --index-url https://git.invenhost.com/api/packages/invenhost-c1/pypi/simple/ inventree-federation
+```
+[start=2]
+1. Then active the new `federation` entry in the plugin table in the InvenTree UI.
+2. Go to the plugin settings for `inventree-federation` and activate the settings `discoverable by other instances`.
+
+
+
 ## Function
 
 TODO
@@ -26,6 +39,25 @@ Party x means any trusted party.
 #### UC 1: Federation setup [[uc-1]]
 
 TODO
+[ditaa]
+....
+                   +-------------+
+                   | Asciidoctor |-------+
+                   |   diagram   |       |
+                   +-------------+       | PNG out
+                       ^                 |
+                       | ditaa in        |
+                       |                 v
+ +--------+   +--------+----+    /---------------\
+ |        | --+ Asciidoctor +--> |               |
+ |  Text  |   +-------------+    |   Beautiful   |
+ |Document|   |   !magic!   |    |    Output     |
+ |     {d}|   |             |    |               |
+ +---+----+   +-------------+    \---------------/
+     :                                   ^
+     |          Lots of work             |
+     +-----------------------------------+
+....
 
 #### UC 2: Party A sends item to party B [[uc-2]]
 
