@@ -105,7 +105,17 @@ sequenceDiagram
 
 #### UC 4: Party x requests inventory stats from party x [[uc-4]]
 
-TODO
+[mermaid]
+....
+sequenceDiagram
+    autonumber
+    participant PartyA
+    participant PartyB
+    PartyB->>PartyA: I need the inventory for your server
+    PartyA->>PartyA: Trigger worker, collect inventory and send it to Party B
+    PartyB->>PartyB: Safe inventory in metadata
+    PartyB->>PartyA: Inventory received
+....
 
 #### UC 5: Federation stop [[uc-5]]
 
