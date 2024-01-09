@@ -23,8 +23,6 @@ pip install --index-url https://git.invenhost.com/api/packages/invenhost-c1/pypi
 1. Then active the new `federation` entry in the plugin table in the InvenTree UI.
 2. Go to the plugin settings for `inventree-federation` and activate the settings `discoverable by other instances`.
 
-
-
 ## Function
 
 TODO
