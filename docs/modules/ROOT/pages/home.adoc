@@ -1,0 +1,169 @@
+# Getting started
+
+WARNING: This plugin is currently in alpha state. It is not recommended to rely on this plugin in production.
+
+WARNING: This plugin requires an instance with InvenTree 0.13.0 or higher and plugin support.
+
+Enables "sharing" of certain stock items between multiple InvenTree instances. There are some xref:home.adoc#limitations[known limitations] in the current implementation.
+
+## General information about InvenHost
+
+The InvenHost project aims to provide a set of plugins and service that enhance InvenTree for commercial and enterprise use cases. +
+
+TIP: Read more about InvenHost in the https://doc.invenhost.com/invenhost[main project documentation]
+
+## Installation/setup [[getting-started]]
+1. Install the plugin. To do this either:
+..  Install the plugin directly from the InvenTree UI. Go to `Settings` -> `Plugins` and click on `Install plugin`. Enter the URL of this repository and click on `Install`.
+.. Install the plugin in your environment with pip. Run +
+```bash
+pip install --index-url https://git.invenhost.com/api/packages/invenhost-c1/pypi/simple/ inventree-federation
+```
+[start=2]
+1. Then active the new `federation` entry in the plugin table in the InvenTree UI.
+2. Go to the plugin settings for `inventree-federation` and activate the settings `discoverable by other instances`.
+
+
+
+## Function
+
+TODO
+
+### Use cases
+
+These use cases guided the development of this plugin. New additions to the plugin should not conflict with these use cases. If they do the reason needs to be documented.
+
+In the following Party A is the InvenTree instance of the makerspace of the main user. Party B is the InvenTree instance of the makerspace of the user's friend/friendly hack. All descriptions are from the perspective of the main user. The parties trust each other. Party C is another makerspace that is not trusted by/known to the main user.
+Party x means any trusted party.
+
+#### UC 1: Federation setup [[uc-1]]
+
+Every server can request to connect to every server (with in the default throtteling) and can be connected to by every server. A superuser of the reqeuseted server needs to be allow the connection. If that occurs a user account for the requesting server is created and a long lived token (1 year) is created.
+Additionally a customer is created for the requesting party. This will server as the owner of the stock items that are shared with the requesting party.
+
+[mermaid]
+....
+sequenceDiagram
+    autonumber
+    participant PartyA
+    participant PartyB
+    PartyA->>PartyA: Activate discoverabily
+    PartyB->>PartyA: [MSG1] I would like to connect: Here is my token
+    PartyA->>PartyA: Admin approves connection
+    PartyA->>PartyB: [MSG2] Ok: Here is my token
+    PartyB->>PartyA: OK: Here is you 1yr token
+    PartyA->>PartyB: OK: Here is you 1yr token
+    PartyB->>PartyA: What inventory do you have? (using 1yr token)
+    PartyA->>PartyB: Here is my inventory
+    PartyA->>PartyA: Set connection to active
+    PartyA->>PartyB: What inventory do you have? (using 1yr token)
+    PartyB->>PartyA: Here is my inventory
+    PartyB->>PartyB: Set connection to active
+....
+
+#### UC 2: Party A sends item to party B [[uc-2]]
+
+One Party pushes a stockitem to antother. The receiving Party needs to accept the item. It will then be created on the receiving Parties Instance and moved on the sending Parties instance to the customer account of the receiving parties customer account.
+
+[mermaid]
+....
+sequenceDiagram
+    autonumber
+    participant PartyA
+    participant PartyB
+    PartyA->>PartyB: I would like to send you this item (including full metadata)
+    PartyB->>PartyB: Item is saved in metadata, notification send to group owners
+    PartyB->>PartyB: Group owner accepts item
+    PartyB->>PartyA: OK: Item transfer would be accepted
+    PartyA->>PartyA: Check if item is still available, abort if not
+    PartyA->>PartyA: Transfer item to Party B customer account
+    PartyA->>PartyB: OK: Item was moved (here is the metadata again)
+    PartyB->>PartyB: Create item, add stock tracking entry that shows that the item was received from Party A, notify group owners
+    PartyB->>PartyA: OK: Item was created, stock count send item to show it was received
+....
+
+#### UC 3: Party B request item from party A [[uc-3]]
+
+Similar to UC2 but the other way around. The sending Party needs to accept the item.
+
+[mermaid]
+....
+sequenceDiagram
+    autonumber
+    participant PartyA
+    participant PartyB
+    PartyA->>PartyB: I would like to receive you this item (including full metadata)
+    PartyB->>PartyB: Requested Item is saved in metadata, notification send to group owners
+    PartyB->>PartyB: Group owner accepts sending item, check if item available
+    PartyB->>PartyA: OK: Item transfer would be accepted
+    PartyA->>PartyA: Create Item in Party B's customer account, Transfer item to normal stock location
+    PartyA->>PartyB: OK: Item was moved
+    PartyB->>PartyB: Transfer item to Party A's customer account, add stock tracking entry that shows that the item was send to Party A
+    PartyB->>PartyA: OK: Item was transferred, stock count send item to show it was received, notify group owners
+....
+
+
+#### UC 4: Party x requests inventory stats from party x [[uc-4]]
+
+[mermaid]
+....
+sequenceDiagram
+    autonumber
+    participant PartyA
+    participant PartyB
+    PartyB->>PartyA: I need the inventory for your server
+    PartyA->>PartyA: Trigger worker, collect inventory and send it to Party B
+    PartyB->>PartyB: Safe inventory in metadata
+    PartyB->>PartyA: Inventory received
+....
+
+#### UC 5: Federation stop [[uc-5]]
+
+TODO
+
+### Design decisions
+
+1. The plugin should follow InvenHost best practices
+2. The plugin should not use migrations
+3. The plugin should expose a reusable REST API
+4. The user interface is to be implemented in CUI till PUI is GA
+5. Data is to be stored in metadata
+6. Changes to stock etc. are to be tracked in the history
+7. Each Federated party is to have it's own customer
+
+### Known Limitations [[limitations]]
+
+#### UC 6: Party A sends to party B sends to party C [[uc-6]]
+
+Not allowed. Only direct connections are allowed currently as the plugin does not keep track of the full chain of ownership.
+
+#### Multi step/dynamic approval process
+
+This is out of scope currently. Might be possible once the inventree-approvals plugins is GA.
+
+#### The auth tokens need to be updated yearly
+
+The default for 0.13.0 is that the auth tokens are valid for 1 year. This means that the auth tokens for all connections need to be updated yearly. This is an acceptable tradeoff for the current implementation.
+
+## Background
+
+This plugin is mainly developed to address the https://github.com/inventree/InvenTree/issues/4562[ask for federation] in upstream InvenTree. The idea is that multiple makerspaces would like to be able to share selected tools and inventory states between each other. This plugin is a first step towards that goal. The use cases were worked on at 37c3.
+
+## Refs
+
+### MSG1 [[ref_msg1]]
+/connect/start
+initiate_contact
+
+### MSG2 [[ref_msg2]]
+
+/connect/accept
+accept_contact
+
+### MSG3 [[ref_msg3]]
+### MSG4 [[ref_msg4]]
+### MSG5 [[ref_msg5]]
+### MSG6 [[ref_msg6]]
+
+## routes
+/connect
