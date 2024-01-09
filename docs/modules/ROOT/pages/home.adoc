@@ -46,9 +46,9 @@ sequenceDiagram
     participant PartyA
     participant PartyB
     PartyA->>PartyA: Activate discoverabily
-    PartyB->>PartyA: [MSG1] I would like to connect: Here is my token
+    PartyB->>PartyA: I would like to connect: Here is my token
     PartyA->>PartyA: Admin approves connection
-    PartyA->>PartyB: [MSG2] Ok: Here is my token
+    PartyA->>PartyB: Ok: Here is my token
     PartyB->>PartyA: OK: Here is you 1yr token
     PartyA->>PartyB: OK: Here is you 1yr token
     PartyB->>PartyA: What inventory do you have? (using 1yr token)
@@ -146,22 +146,3 @@ The default for 0.13.0 is that the auth tokens are valid for 1 year. This means 
 ## Background
 
 This plugin is mainly developed to address the https://github.com/inventree/InvenTree/issues/4562[ask for federation] in upstream InvenTree. The idea is that multiple makerspaces would like to be able to share selected tools and inventory states between each other. This plugin is a first step towards that goal. The use cases were worked on at 37c3.
-
-## Refs
-
-### MSG1 [[ref_msg1]]
-/connect/start
-initiate_contact
-
-### MSG2 [[ref_msg2]]
-
-/connect/accept
-accept_contact
-
-### MSG3 [[ref_msg3]]
-### MSG4 [[ref_msg4]]
-### MSG5 [[ref_msg5]]
-### MSG6 [[ref_msg6]]
-
-## routes
-/connect
